@@ -1,8 +1,19 @@
+import sys
+from stats import get_word_count, get_char_dict
+
+print(len(sys.argv))
+
+if len(sys.argv) != 2:
+    print("Usage: python3 main.py <path_to_book>")
+    sys.exit(1)
+
 def main():
-    path = 'books/frankenstein.txt'
+    path = sys.argv[1]
     # text = get_text(path)
-    # count = get_word_count(text)
-    # char_count = get_char_dict(text.split())
+    # # count = get_word_count(text)
+    # print(get_word_count(text))
+
+    # print(get_char_dict(text.split()))
     # list_chars = [{'char': k, 'count': v} for k, v in char_count.items()]
     # sorted_chars = list_chars.sort(reverse=True, key=sort_on)
     get_report(path)
@@ -10,21 +21,8 @@ def main():
 def get_text(path_to_book):
     with open(path_to_book) as f:
         return f.read()
-    
-def get_word_count(text):
-    words = text.split()
-    return len(words)
 
-def get_char_dict(words):
-    characters = {}
 
-    for word in words:
-        for c in word.lower():
-            if c not in characters:
-                characters[c] = 1
-            else:
-                characters[c] += 1         
-    return characters
 
 def sort_on(item):
     return item['count']
@@ -36,11 +34,12 @@ def get_report(path):
     list_chars.sort(reverse=True, key=sort_on)
     # print(list_chars)
     print(f"--- Begin report of {path} ---")
-    print(f"{get_word_count(text)} words found in the document\n")
+    print(f"Found {get_word_count(text)} total words\n")
+    print(f"--- Character count {path} ---")
     for item in list_chars:
         if item['char'].isalpha():
-            print(f"The {item['char']} character was fount {item['count']} times")
-    print(f"--- End report ---")
+            print(f"{item['char']}: {item['count']}")
+    print(f"--- END ---")
 
 if __name__ == '__main__':
     main()
